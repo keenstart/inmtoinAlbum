@@ -16,6 +16,8 @@
 		A47E74661F848786005442C7 /* AlbumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74651F848786005442C7 /* AlbumTests.swift */; };
 		A47E74711F848787005442C7 /* AlbumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74701F848787005442C7 /* AlbumUITests.swift */; };
 		A47E747F1F848847005442C7 /* started in Resources */ = {isa = PBXBuildFile; fileRef = A47E747E1F848847005442C7 /* started */; };
+		A47E74861F848B40005442C7 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74851F848B40005442C7 /* Album.swift */; };
+		A47E74881F848C9B005442C7 /* AblumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74871F848C9B005442C7 /* AblumCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		A47E74701F848787005442C7 /* AlbumUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumUITests.swift; sourceTree = "<group>"; };
 		A47E74721F848787005442C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A47E747E1F848847005442C7 /* started */ = {isa = PBXFileReference; lastKnownFileType = text; path = started; sourceTree = "<group>"; };
+		A47E74851F848B40005442C7 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		A47E74871F848C9B005442C7 /* AblumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AblumCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +106,10 @@
 		A47E744C1F84876A005442C7 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				A47E74821F848AFA005442C7 /* Controller */,
+				A47E74811F848AF3005442C7 /* View */,
+				A47E74801F848AE9005442C7 /* Model */,
 				A47E744D1F84876A005442C7 /* AppDelegate.swift */,
-				A47E744F1F84876A005442C7 /* ViewController.swift */,
-				A47E74511F84876C005442C7 /* Main.storyboard */,
 				A47E74571F848780005442C7 /* Assets.xcassets */,
 				A47E74591F848781005442C7 /* LaunchScreen.storyboard */,
 				A47E745C1F848783005442C7 /* Info.plist */,
@@ -129,6 +134,31 @@
 				A47E74721F848787005442C7 /* Info.plist */,
 			);
 			path = AlbumUITests;
+			sourceTree = "<group>";
+		};
+		A47E74801F848AE9005442C7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A47E74851F848B40005442C7 /* Album.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A47E74811F848AF3005442C7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A47E74511F84876C005442C7 /* Main.storyboard */,
+				A47E74871F848C9B005442C7 /* AblumCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A47E74821F848AFA005442C7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A47E744F1F84876A005442C7 /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,9 +296,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47E74881F848C9B005442C7 /* AblumCell.swift in Sources */,
 				A47E74561F84877E005442C7 /* Album.xcdatamodeld in Sources */,
 				A47E74501F84876A005442C7 /* ViewController.swift in Sources */,
 				A47E744E1F84876A005442C7 /* AppDelegate.swift in Sources */,
+				A47E74861F848B40005442C7 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
