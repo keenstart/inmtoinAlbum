@@ -12,12 +12,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    let urlString = "https://jsonplaceholder.typicode.com/photos"
+    let urlString = "http://jsonplaceholder.typicode.com/photos"
     var albumArray = [Album]()
     var albumContentArray = [AlbumContent]()
     var album = Album()
     
-    var cache = NSCache<AnyObject, AnyObject>()
+    //var cache = NSCache<AnyObject, AnyObject>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +30,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         URLSession.shared.dataTask(with: url) { (data, response, err) in
             do {
                 if let jsonObject = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSArray {
-                    //print(jsonObject)
                     var albumNoRepeat:Int = 0
+                    
+                    //Load all Images and assign it to it album's
                     for albumObj in jsonObject {
                         if let albumDict = albumObj as? NSDictionary {
                             
-                            //Load all Image and assign it to it album
+                            
                             
                             let albumIdVal: Int = {
                                 if let  albumId = albumDict.value(forKey: "albumId") as? Int {
@@ -72,7 +73,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                                 return ""
                             }()
                             
-                            
                             //Identify number of albums
                             if albumNoRepeat != albumIdVal {
                                 albumNoRepeat = albumIdVal
@@ -82,12 +82,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                                 print(albumIdVal)
                             }
                             
+                            //Add Images to it Album
                             let albumContentVal = AlbumContent(albumId: albumIdVal, id: idVal, title: titleVal, url: urlVal, thumbnailUrl: thumbnailUrlVal)
-                            self.albumArray[albumIdVal - 1].appendAlbum(albumContent: albumContentVal)
-                            
-                            OperationQueue.main.addOperation {
-                                self.collectionView.reloadData()
-                            }
+                            self.albumArray[albumIdVal-1].appendAlbum(albumContent: albumContentVal)
+
                         }
                     }
                 }
@@ -95,11 +93,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             } catch let jsonError {
                 print("Json error: \(jsonError)")
             }
-            }.resume()
-        
-        
-        
+            
+            //Reload UI on the main thread
+            OperationQueue.main.addOperation {
+                self.collectionView.reloadData()
+            }
+
+        }.resume()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -113,26 +115,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AblumCell
-        
-        //var albumCollection = Album()
+
         let albumCollection = self.albumArray[indexPath.row]
-        
-        if let urlImage = self.cache.object(forKey: albumCollection.thumbnailUrl as AnyObject) {
-            cell.ablumImageView.image =  urlImage as? UIImage
+
+        if let urlImage = albumCollection.getCacheImage(uri: albumCollection.thumbnailUrl!) {
+            cell.ablumImageView.image =  urlImage
         } else {
             DispatchQueue.global().async {
-                let dataUrl = NSData(contentsOf: URL(string: albumCollection.thumbnailUrl!)!)
-                self.cache.setObject(UIImage(data: dataUrl! as Data)!, forKey: albumCollection.thumbnailUrl as AnyObject)
+                albumCollection.setCacheImage(uri: albumCollection.thumbnailUrl!)
                 DispatchQueue.main.async {
-                    cell.ablumImageView.image =  UIImage(data: dataUrl! as Data)
+                    cell.ablumImageView.image =  albumCollection.getThumbnailUrls(thumbnailUrl: albumCollection.thumbnailUrl!) 
                 }
             }
         }
-        
-        
-        //cell.ablumImageView.image = UIImage(named: array[indexPath.row] + ".jpg")
-        
-        
         return cell
     }
     

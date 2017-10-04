@@ -25,49 +25,38 @@ class Album {
         //I was thinking of caching all the image on load. But concern about memory size
         /*
          let dataThumbnailUrl = NSData(contentsOf: URL(string: albumContent.thumbnailUrl!)!)
-         cache.setObject(UIImage(data: dataThumbnailUrl! as Data)!, forKey: albumContent.thumbnailUrl as AnyObject)
+         self.cache.setObject(UIImage(data: dataThumbnailUrl! as Data)!, forKey: albumContent.thumbnailUrl as AnyObject)
          
          let dataUrl = NSData(contentsOf: URL(string: albumContent.url!)!)
-         cache.setObject(UIImage(data: dataUrl! as Data)!, forKey: albumContent.url as AnyObject)
+         self.cache.setObject(UIImage(data: dataUrl! as Data)!, forKey: albumContent.url as AnyObject)
          */
         
         self.albumContentArray.append(albumContent)
     }
     
     func getAlbumThumbnailUrls () -> UIImage! {
-        return getThumbnailUrls (thumbnailUrl:self.thumbnailUrl!)
+        return self.getThumbnailUrls (thumbnailUrl:self.thumbnailUrl!)
+    }
+    
+    func setCacheImage (uri:String) {
+        let dataUri = NSData(contentsOf: URL(string: uri)!)
+        self.cache.setObject(UIImage(data: dataUri! as Data)!, forKey: uri as AnyObject)
+    }
+    
+    func getCacheImage (uri:String) -> UIImage! {
+        var rtnImage:UIImage!
+        if let uriImage = self.cache.object(forKey: uri as AnyObject) {
+            rtnImage =  uriImage as! UIImage
+        }
+        return  rtnImage
     }
     
     func getImage (url:String) -> UIImage! {
-        var rtnImage:UIImage!
-        if let urlImage = self.cache.object(forKey: url as AnyObject) {
-            rtnImage =  urlImage as! UIImage
-        } else {
-            DispatchQueue.global().async {
-                let dataUrl = NSData(contentsOf: URL(string: url)!)
-                self.cache.setObject(UIImage(data: dataUrl! as Data)!, forKey: url as AnyObject)
-                DispatchQueue.main.async {
-                    rtnImage =  UIImage(data: dataUrl! as Data)
-                }
-            }
-        }
-        return  rtnImage
+        return self.getCacheImage (uri:url)
     }
     
     func getThumbnailUrls (thumbnailUrl:String) -> UIImage! {
-        var rtnImage:UIImage!
-        if let urlImage = self.cache.object(forKey: thumbnailUrl as AnyObject) {
-            rtnImage =  urlImage as! UIImage
-        } else {
-            DispatchQueue.global().async {
-                let dataUrl = NSData(contentsOf: URL(string: thumbnailUrl)!)
-                self.cache.setObject(UIImage(data: dataUrl! as Data)!, forKey: thumbnailUrl as AnyObject)
-                DispatchQueue.main.async {
-                    rtnImage =  UIImage(data: dataUrl! as Data)
-                }
-            }
-        }
-        return  rtnImage
+        return self.getCacheImage (uri:thumbnailUrl)
     }
 }
 
@@ -78,17 +67,13 @@ class AlbumContent: NSObject {
     let title:String?
     let url:String?
     let thumbnailUrl:String?
-    //let imgUrl:UIImage?
-    //let imgthumbnailUrl:UIImage?
     
-    init(albumId:Int, id:Int, title:String, url:String, thumbnailUrl:String /*, *imgUrl:UIImage, imgthumbnailUrl:UIImage*/) {
+    init(albumId:Int, id:Int, title:String, url:String, thumbnailUrl:String) {
         self.albumId = albumId
         self.id = id
         self.title = title
         self.url = url
         self.thumbnailUrl = thumbnailUrl
-        //self.imgUrl = imgUrl
-        //self.imgthumbnailUrl = imgthumbnailUrl
     }
 }
 
