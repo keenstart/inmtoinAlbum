@@ -22,7 +22,7 @@ class Album {
     
     func appendAlbum (albumContent:AlbumContent) {
         
-        //I was thinking of caching all the image on load. But concern about memory size
+        //I was thinking of caching all the image on load. But concern about memory space
         /*
          let dataThumbnailUrl = NSData(contentsOf: URL(string: albumContent.thumbnailUrl!)!)
          self.cache.setObject(UIImage(data: dataThumbnailUrl! as Data)!, forKey: albumContent.thumbnailUrl as AnyObject)
