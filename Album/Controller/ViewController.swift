@@ -8,14 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate  {
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var tableView: UITableView!
     
     let urlString = "http://jsonplaceholder.typicode.com/photos"
     var albumArray = [Album]()
     var albumContentArray = [AlbumContent]()
     var album = Album()
+    
+    var indexPath:NSIndexPath!
+    var albumID:Int!
+    
     
     //var cache = NSCache<AnyObject, AnyObject>()
     
@@ -23,6 +29,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         parseJsonFromUrl ()
+
     }
     
     func parseJsonFromUrl () {
@@ -96,7 +103,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //Reload UI on the main thread
             OperationQueue.main.addOperation {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
 
         }.resume()
@@ -107,30 +114,79 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: collectionView
+    //MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //if(segue.identifier == "photoSegue") {
+            let indexPath:NSIndexPath = self.tableView.indexPathForSelectedRow! as NSIndexPath
+            if let PhotoController = segue.destination as? PhotoController {
+                PhotoController.text = "Jesus"
+                print("I selected photoSegue: \(indexPath.row)")
+            }
+            
+        //}
+    }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    //MARK: TableView
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        print("I selected table \(indexPath.row)")
+        
+        /*let data:String = "Jesus"
+        let photoController = PhotoController(nibName: "PhotoController", bundle: nil)
+        photoController.data = data
+        present(photoController, animated: true, completion: nil)*/
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.albumArray.count
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! TableCell
+        cell.albumName.text = "Album \(String(describing: self.albumArray[indexPath.row].albumId!))"
+        cell.tableCollection.reloadData()
+        return cell
+    }
+}
+
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("I selected album \(indexPath.row)")
+
+        self.albumID = self.albumArray[indexPath.section].albumContentArray[indexPath.row].albumId
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.albumArray[section].albumContentArray.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AblumCell
-
-        let albumCollection = self.albumArray[indexPath.row]
-
-        if let urlImage = albumCollection.getCacheImage(uri: albumCollection.thumbnailUrl!) {
-            cell.ablumImageView.image =  urlImage
+        
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionCell
+       
+        let album = self.albumArray[indexPath.section]
+        let albumCollection = self.albumArray[indexPath.section].albumContentArray[indexPath.row]
+        
+        if let urlImage = album.getCacheImage(uri: albumCollection.thumbnailUrl!) {
+            cell.imageCollection.image =  urlImage
         } else {
             DispatchQueue.global().async {
-                albumCollection.setCacheImage(uri: albumCollection.thumbnailUrl!)
+                album.setCacheImage(uri: albumCollection.thumbnailUrl!)
                 DispatchQueue.main.async {
-                    cell.ablumImageView.image =  albumCollection.getThumbnailUrls(thumbnailUrl: albumCollection.thumbnailUrl!) 
+                    cell.imageCollection.image =  album.getThumbnailUrls(thumbnailUrl: albumCollection.thumbnailUrl!)
                 }
             }
         }
         return cell
     }
-    
 }
 
 
