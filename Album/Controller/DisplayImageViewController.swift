@@ -10,10 +10,33 @@ import UIKit
 
 class DisplayImageViewController: UIViewController {
 
+    @IBOutlet weak var displayImage: UIImageView?
+    @IBOutlet weak var imageTitle: UILabel?
+    //var url:String!
+    
+    var albumPhoto:Album!
+    var index:Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        if let album = self.albumPhoto {
+            if let albumCollection = self.albumPhoto.albumContentArray[self.index] as AlbumContent! {
+                if let urlImage = album.getCacheImage(uri: albumCollection.url!) {
+                    self.displayImage?.image =  urlImage
+                } else {
+                    DispatchQueue.global().async {
+                        album.setCacheImage(uri: albumCollection.url!)
+                        DispatchQueue.main.async {
+                            self.displayImage?.image =  album.getImage(url: albumCollection.url!)  //getThumbnailUrls(thumbnailUrl: albumCollection.thumbnailUrl!)
+                        }
+                    }
+                }
+                self.imageTitle?.text = albumCollection.title
+            }
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +45,10 @@ class DisplayImageViewController: UIViewController {
     }
     
 
+    @IBAction func downloadImage(_ sender: UIButton) {
+        
+    }
+    
     /*
     // MARK: - Navigation
 
