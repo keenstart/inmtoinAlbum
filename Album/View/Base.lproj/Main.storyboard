@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-1162" y="-45"/>
         </scene>
-        <!--View Controller-->
+        <!--My Albums-->
         <scene sceneID="E1g-Od-O9S">
             <objects>
                 <viewController id="I40-0c-9bU" customClass="ViewController" customModule="Album" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,6 +82,7 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageCollection" destination="Neq-lk-I3Q" id="7rL-KX-AXs"/>
+                                                                <segue destination="V9p-5W-C9b" kind="show" identifier="photoSegue" id="DAm-Qj-ejT"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -140,7 +141,7 @@
                                         <connections>
                                             <outlet property="albumName" destination="0jJ-RM-2BJ" id="yAL-lc-gRo"/>
                                             <outlet property="tableCollection" destination="GLg-oB-nHt" id="TZV-nY-wyN"/>
-                                            <segue destination="V9p-5W-C9b" kind="show" id="TNl-0y-0kA"/>
+                                            <segue destination="V9p-5W-C9b" kind="show" identifier="photoSegue" id="TNl-0y-0kA"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -159,7 +160,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b3Q-gy-5l1"/>
                     </view>
-                    <navigationItem key="navigationItem" id="KoU-5k-7pK"/>
+                    <navigationItem key="navigationItem" title="My Albums" id="KoU-5k-7pK"/>
                     <connections>
                         <outlet property="tableView" destination="ycc-KO-YoT" id="fCH-zs-5CY"/>
                     </connections>
@@ -176,19 +177,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7u5-Gm-Sdv">
-                                <rect key="frame" x="77" y="323" width="239" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nu2-io-uet">
+                                <rect key="frame" x="16" y="81" width="343" height="522"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CDi-8r-CAj">
+                                    <size key="itemSize" width="220" height="450"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="kho-cw-VHi">
+                                        <rect key="frame" x="0.0" y="36" width="220" height="450"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="220" height="450"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="7u5-Gm-Sdv" firstAttribute="top" secondItem="DOy-QX-Eg8" secondAttribute="top" constant="259" id="ERU-Mw-Ej3"/>
-                            <constraint firstItem="7u5-Gm-Sdv" firstAttribute="leading" secondItem="DOy-QX-Eg8" secondAttribute="leading" constant="77" id="FuH-0D-P3O"/>
-                            <constraint firstItem="DOy-QX-Eg8" firstAttribute="bottom" secondItem="7u5-Gm-Sdv" secondAttribute="bottom" constant="323" id="JPg-fg-4Wm"/>
-                            <constraint firstItem="DOy-QX-Eg8" firstAttribute="trailing" secondItem="7u5-Gm-Sdv" secondAttribute="trailing" constant="59" id="Qsu-tn-87Q"/>
+                            <constraint firstItem="DOy-QX-Eg8" firstAttribute="bottom" secondItem="Nu2-io-uet" secondAttribute="bottom" constant="64" id="4Mg-W0-dKo"/>
+                            <constraint firstItem="Nu2-io-uet" firstAttribute="top" secondItem="DOy-QX-Eg8" secondAttribute="top" constant="17" id="4Wb-MH-fST"/>
+                            <constraint firstItem="Nu2-io-uet" firstAttribute="leading" secondItem="DOy-QX-Eg8" secondAttribute="leading" constant="16" id="AIM-BC-nea"/>
+                            <constraint firstItem="DOy-QX-Eg8" firstAttribute="trailing" secondItem="Nu2-io-uet" secondAttribute="trailing" constant="16" id="UVB-d3-mSe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DOy-QX-Eg8"/>
                     </view>
@@ -200,13 +215,13 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" id="uKL-Rw-Go5"/>
                     </navigationItem>
-                    <connections>
-                        <outlet property="label" destination="7u5-Gm-Sdv" id="d78-Ux-1nl"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cCC-wy-Ayy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1224.8" y="-45.42728635682159"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="DAm-Qj-ejT"/>
+    </inferredMetricsTieBreakers>
 </document>

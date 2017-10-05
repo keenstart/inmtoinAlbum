@@ -19,6 +19,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var albumContentArray = [AlbumContent]()
     var album = Album()
     
+    var PhotoController:PhotoController!
+    
     var indexPath:NSIndexPath!
     var albumID:Int!
     
@@ -116,35 +118,49 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if(segue.identifier == "photoSegue") {
-            let indexPath:NSIndexPath = self.tableView.indexPathForSelectedRow! as NSIndexPath
-            if let PhotoController = segue.destination as? PhotoController {
-                PhotoController.text = "Jesus"
-                print("I selected photoSegue: \(indexPath.row)")
-            }
-            
-        //}
+        if(segue.identifier == "photoSegue") {
+             self.PhotoController = segue.destination as? PhotoController
+        }
     }
     
     //MARK: TableView
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         print("I selected table \(indexPath.row)")
-        
-        /*let data:String = "Jesus"
-        let photoController = PhotoController(nibName: "PhotoController", bundle: nil)
-        photoController.data = data
-        present(photoController, animated: true, completion: nil)*/
+
+        self.PhotoController.headerText = "Album \(String(describing: self.albumArray[indexPath.row].albumId!))"
+        self.PhotoController.albumPhotoArray = self.albumArray[indexPath.row]
     }
+    
+    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "My Albums"
+    }*/
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.albumArray.count
     }
     
+    /*func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        
+        let label = UILabel()
+        label.text = "My Albums"
+        label.frame = CGRect(x: 50, y: 5, width: 50, height: 40)
+        view.addSubview(label)
+        
+        return view
+    }*/
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! TableCell
         cell.albumName.text = "Album \(String(describing: self.albumArray[indexPath.row].albumId!))"
+        self.indexPath = indexPath as NSIndexPath
+        
+        print("tableView: I selected self.indexPath:\(self.indexPath.row) indexPath.row:\(indexPath.row)")
+        
         cell.tableCollection.reloadData()
         return cell
     }
@@ -154,9 +170,13 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("I selected album \(indexPath.row)")
-
-        self.albumID = self.albumArray[indexPath.section].albumContentArray[indexPath.row].albumId
+        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionCell {
+            
+            print("I selected Collection tag: \(cell.imageCollection.tag) row:\(indexPath.row)")
+            
+            self.PhotoController.headerText = "Album \(String(describing: self.albumArray[cell.imageCollection.tag].albumId!))"
+            self.PhotoController.albumPhotoArray = self.albumArray[cell.imageCollection.tag]
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -168,12 +188,11 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
+        print("cellForItemAt: I selected album section:\(self.indexPath.row) row:\(indexPath.row)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionCell
        
-        let album = self.albumArray[indexPath.section]
-        let albumCollection = self.albumArray[indexPath.section].albumContentArray[indexPath.row]
+        let album = self.albumArray[self.indexPath.row]
+        let albumCollection = self.albumArray[self.indexPath.row].albumContentArray[indexPath.row]
         
         if let urlImage = album.getCacheImage(uri: albumCollection.thumbnailUrl!) {
             cell.imageCollection.image =  urlImage
@@ -185,6 +204,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
                 }
             }
         }
+        
+        //Assigned Tableview row index
+        cell.imageCollection.tag = self.indexPath.row
+        
         return cell
     }
 }

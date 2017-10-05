@@ -10,16 +10,15 @@ import UIKit
 
 class PhotoController: UIViewController {
     
-    var text:String?
-    
-    @IBOutlet weak var label: UILabel!
-
+    var headerText:String?
     var albumPhotoArray:Album!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        label.text = text
 
+        print(albumPhotoArray.albumContentArray[0].title!)
+        
+        self.navigationItem.title = headerText
         // Do any additional setup after loading the view.
     }
 
