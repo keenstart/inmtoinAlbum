@@ -18,13 +18,15 @@ class DisplayImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
         
         if let album = self.albumPhoto {
             if let albumCollection = self.albumPhoto.albumContentArray[self.index] as AlbumContent! {
                 if let urlImage = album.getCacheImage(uri: albumCollection.url!) {
+                    //Get from cache
                     self.displayImage?.image =  urlImage
                 } else {
+                    //Save to cache
                     DispatchQueue.global().async {
                         album.setCacheImage(uri: albumCollection.url!)
                         DispatchQueue.main.async {
@@ -42,20 +44,19 @@ class DisplayImageViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     @IBAction func downloadImage(_ sender: UIButton) {
+        print("To Image save")
+        if let ImageData = UIImagePNGRepresentation((self.displayImage?.image)!) {
+            if let uiImage = UIImage(data: ImageData) {
+                UIImageWriteToSavedPhotosAlbum(uiImage, self, nil, nil)
+                let alert = UIAlertController(title: "Save to Photos", message: "Images has been saved.", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "OK", style: .default, handler:nil)
+                alert.addAction(ok)
+                present(alert, animated: true, completion: nil)
+            }
+        }
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

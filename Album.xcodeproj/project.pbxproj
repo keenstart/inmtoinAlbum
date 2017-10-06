@@ -20,7 +20,6 @@
 		A47E74711F848787005442C7 /* AlbumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74701F848787005442C7 /* AlbumUITests.swift */; };
 		A47E747F1F848847005442C7 /* started in Resources */ = {isa = PBXBuildFile; fileRef = A47E747E1F848847005442C7 /* started */; };
 		A47E74861F848B40005442C7 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74851F848B40005442C7 /* Album.swift */; };
-		A47E74881F848C9B005442C7 /* AblumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E74871F848C9B005442C7 /* AblumCell.swift */; };
 		A488DDE01F85647A00C229B0 /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A488DDDF1F85647900C229B0 /* TableCell.swift */; };
 		A488DDE21F85649C00C229B0 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A488DDE11F85649C00C229B0 /* CollectionCell.swift */; };
 /* End PBXBuildFile section */
@@ -62,7 +61,6 @@
 		A47E74721F848787005442C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A47E747E1F848847005442C7 /* started */ = {isa = PBXFileReference; lastKnownFileType = text; path = started; sourceTree = "<group>"; };
 		A47E74851F848B40005442C7 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
-		A47E74871F848C9B005442C7 /* AblumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AblumCell.swift; sourceTree = "<group>"; };
 		A488DDDF1F85647900C229B0 /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
 		A488DDE11F85649C00C229B0 /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				A47E74511F84876C005442C7 /* Main.storyboard */,
-				A47E74871F848C9B005442C7 /* AblumCell.swift */,
 				A488DDDF1F85647900C229B0 /* TableCell.swift */,
 				A488DDE11F85649C00C229B0 /* CollectionCell.swift */,
 				A447D7FB1F86C2D20004818F /* PhotoCollectionCell.swift */,
@@ -313,7 +310,6 @@
 			files = (
 				A447D7FE1F86CFF60004818F /* DisplayImageViewController.swift in Sources */,
 				A488DDE01F85647A00C229B0 /* TableCell.swift in Sources */,
-				A47E74881F848C9B005442C7 /* AblumCell.swift in Sources */,
 				A47E74561F84877E005442C7 /* Album.xcdatamodeld in Sources */,
 				A447D7FC1F86C2D30004818F /* PhotoCollectionCell.swift in Sources */,
 				A47E74501F84876A005442C7 /* ViewController.swift in Sources */,

@@ -26,7 +26,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
         parseJsonFromUrl ()
 
     }
@@ -41,9 +41,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     //Load all Images and assign it to it album's
                     for albumObj in jsonObject {
                         if let albumDict = albumObj as? NSDictionary {
-                            
-                            
-                            
                             let albumIdVal: Int = {
                                 if let  albumId = albumDict.value(forKey: "albumId") as? Int {
                                     return albumId
@@ -146,8 +143,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 }
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? CollectionCell {
             
@@ -174,8 +169,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         let albumCollection = self.albumArray[self.indexPath.row].albumContentArray[indexPath.row]
         
         if let urlImage = album.getCacheImage(uri: albumCollection.thumbnailUrl!) {
+            //Get from cache
             cell.imageCollection.image =  urlImage
         } else {
+            //Save to cache
             DispatchQueue.global().async {
                 album.setCacheImage(uri: albumCollection.thumbnailUrl!)
                 DispatchQueue.main.async {

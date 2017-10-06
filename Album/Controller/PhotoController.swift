@@ -26,14 +26,12 @@ class PhotoController: UIViewController, UICollectionViewDataSource, UICollectio
         // Dispose of any resources that can be recreated.
     }
     
-
     // MARK: Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "displaySegue") {
             self.DisplayImageViewController = segue.destination as? DisplayImageViewController
         }
     }
-    
     
     // MARK: - CollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -61,12 +59,14 @@ class PhotoController: UIViewController, UICollectionViewDataSource, UICollectio
         if let album = self.albumPhotoArray {
             if let albumCollection = self.albumPhotoArray.albumContentArray[indexPath.row] as AlbumContent! {
                 if let urlImage = album.getCacheImage(uri: albumCollection.url!) {
+                    //Get from cache
                     cell.photoImage.image =  urlImage
                 } else {
+                    //Save to cache
                     DispatchQueue.global().async {
                         album.setCacheImage(uri: albumCollection.url!)
                         DispatchQueue.main.async {
-                            cell.photoImage.image =  album.getImage(url: albumCollection.url!)  //getThumbnailUrls(thumbnailUrl: albumCollection.thumbnailUrl!)
+                            cell.photoImage.image =  album.getImage(url: albumCollection.url!)  
                         }
                     }
                 }
@@ -79,6 +79,4 @@ class PhotoController: UIViewController, UICollectionViewDataSource, UICollectio
         
         return cell
     }
-
-
 }
