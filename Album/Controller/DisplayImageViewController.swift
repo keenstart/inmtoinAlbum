@@ -37,7 +37,6 @@ class DisplayImageViewController: UIViewController {
                 self.imageTitle?.text = albumCollection.title
             }
         }
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,5 +57,4 @@ class DisplayImageViewController: UIViewController {
         }
         
     }
-
 }
